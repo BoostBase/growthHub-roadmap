@@ -9,7 +9,6 @@ import com.growthhub.global.exception.RoadmapNotFoundException;
 import com.growthhub.roadmap.domain.Roadmap;
 import com.growthhub.roadmap.dto.request.RoadmapRequestDto;
 import com.growthhub.roadmap.dto.response.RoadmapResponseDto;
-//import com.growthhub.roadmap.dto.response.RoadmapsResponseDto;
 import com.growthhub.roadmap.dto.response.RoadmapsResponseDto;
 import com.growthhub.roadmap.repository.RoadmapRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.growthhub.global.exception.errorcode.RoadmapErrorCode.*;
 import static java.util.stream.Collectors.toMap;
@@ -38,10 +36,9 @@ public class RoadmapService {
 
     @Transactional
     public RoadmapResponseDto save(Long userId, RoadmapRequestDto roadmapRequestDto) {
-        Optional<Roadmap> optionalRoadmap = roadmapRepository.findByUserId(userId);
-        if (optionalRoadmap.isPresent()) {
+        roadmapRepository.findByUserId(userId).ifPresent(roadmap -> {
             throw new DuplicationRoadmapException(DUPLICATION_ROADMAP);
-        }
+        });
         Roadmap roadmap = roadmapRequestDto.toRoadmap(userId);
         roadmapRepository.save(roadmap);
         return RoadmapResponseDto.from(roadmap);
@@ -55,7 +52,7 @@ public class RoadmapService {
                 .toList();
         List<UserResponse> mentors = userClient.getUser(mentorIds);
         Map<Long, UserResponse> mentorMap = mentors.stream()
-                .collect(toMap(UserResponse::mentorId, userResponse -> userResponse));
+                .collect(toMap(UserResponse::userId, userResponse -> userResponse));
         Map<Long, Double> userRatingMap = getAverageRatingMap(mentorIds);
         List<RoadmapsResponseDto.RoadmapWithUser> roadmaps = roadmapsSlice.stream().map(roadmap -> {
             UserResponse userResponse = mentorMap.get(roadmap.getUserId());

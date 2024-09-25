@@ -34,7 +34,7 @@ public record RoadmapsResponseDto(
     ) {
         public static RoadmapWithUser from(UserResponse userResponse, Double rating, Roadmap roadMap) {
             return RoadmapWithUser.builder()
-                    .mentorId(userResponse.mentorId())
+                    .mentorId(userResponse.userId())
                     .name(userResponse.name())
                     .nickname(userResponse.nickname())
                     .profileImageUrl(userResponse.profileImageUrl())
