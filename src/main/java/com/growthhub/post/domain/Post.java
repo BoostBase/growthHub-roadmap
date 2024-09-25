@@ -1,4 +1,4 @@
-package com.growthhub.roadmap.domain;
+package com.growthhub.post.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -31,5 +31,13 @@ public class Post {
         this.title = title;
         this.content = content;
         this.userId = userId;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
     }
 }
