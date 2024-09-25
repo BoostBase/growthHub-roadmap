@@ -1,6 +1,8 @@
 package com.growthhub.global.exception.handler;
 
 import com.growthhub.global.exception.DuplicationRoadmapException;
+import com.growthhub.global.exception.PostNotFoundException;
+import com.growthhub.global.exception.PostUserMismatchException;
 import com.growthhub.global.exception.RoadmapNotFoundException;
 import com.growthhub.global.exception.errorcode.ErrorCode;
 import com.growthhub.global.exception.errorcode.GlobalErrorCode;
@@ -30,6 +32,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DuplicationRoadmapException.class)
     public ResponseEntity<Object> handleDuplicationRoadmap(DuplicationRoadmapException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<Object> handlePostNotFound(PostNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(PostUserMismatchException.class)
+    public ResponseEntity<Object> handlePostUserMismatch(PostUserMismatchException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
