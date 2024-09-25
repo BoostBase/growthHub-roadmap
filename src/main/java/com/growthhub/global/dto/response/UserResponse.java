@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record UserResponse(
-        Long mentorId,
+        Long userId,
         String name,
         String nickname,
         String profileImageUrl,

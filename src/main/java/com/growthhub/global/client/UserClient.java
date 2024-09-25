@@ -10,6 +10,6 @@ import java.util.List;
 @FeignClient(name = "AUTH-SERVICE", url = "http://localhost:8000")
 public interface UserClient {
 
-    @GetMapping("/api/auth/mentors")
-    List<UserResponse> getUser(@RequestParam("mentorIds") List<Long> mentorIds);
+    @GetMapping("/api/auth/users")
+    List<UserResponse> getUser(@RequestParam("userIds") List<Long> userIds);
 }
