@@ -1,9 +1,6 @@
 package com.growthhub.global.exception.handler;
 
-import com.growthhub.global.exception.DuplicationRoadmapException;
-import com.growthhub.global.exception.PostNotFoundException;
-import com.growthhub.global.exception.PostUserMismatchException;
-import com.growthhub.global.exception.RoadmapNotFoundException;
+import com.growthhub.global.exception.*;
 import com.growthhub.global.exception.errorcode.ErrorCode;
 import com.growthhub.global.exception.errorcode.GlobalErrorCode;
 import com.growthhub.global.exception.response.ErrorResponse;
@@ -42,6 +39,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(PostUserMismatchException.class)
     public ResponseEntity<Object> handlePostUserMismatch(PostUserMismatchException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<Object> handleCommentNotFound(CommentNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(CommentDepthExceededException.class)
+    public ResponseEntity<Object> handleCommentDepthExceeded(CommentDepthExceededException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(CommentUserMismatchException.class)
+    public ResponseEntity<Object> handleCommentUserMismatch(CommentUserMismatchException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
