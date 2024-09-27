@@ -4,8 +4,7 @@ import com.growthhub.global.client.RatingClient;
 import com.growthhub.global.client.UserClient;
 import com.growthhub.global.dto.response.RatingResponse;
 import com.growthhub.global.dto.response.UserResponse;
-import com.growthhub.global.exception.DuplicationRoadmapException;
-import com.growthhub.global.exception.RoadmapNotFoundException;
+import com.growthhub.global.exception.RoadmapException;
 import com.growthhub.roadmap.domain.Roadmap;
 import com.growthhub.roadmap.dto.request.RoadmapRequestDto;
 import com.growthhub.roadmap.dto.response.RoadmapResponseDto;
@@ -37,7 +36,7 @@ public class RoadmapService {
     @Transactional
     public RoadmapResponseDto save(Long userId, RoadmapRequestDto roadmapRequestDto) {
         roadmapRepository.findByUserId(userId).ifPresent(roadmap -> {
-            throw new DuplicationRoadmapException(DUPLICATION_ROADMAP);
+            throw new RoadmapException(DUPLICATION_ROADMAP);
         });
         Roadmap roadmap = roadmapRequestDto.toRoadmap(userId);
         roadmapRepository.save(roadmap);
@@ -70,14 +69,14 @@ public class RoadmapService {
 
     public RoadmapResponseDto getRoadmap(Long roadmapId) {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
-                .orElseThrow(() -> new RoadmapNotFoundException(ROADMAP_NOT_FOUND));
+                .orElseThrow(() -> new RoadmapException(ROADMAP_NOT_FOUND));
         return RoadmapResponseDto.from(roadmap);
     }
 
     @Transactional
     public RoadmapResponseDto updateRoadmap(Long userId, RoadmapRequestDto roadMapRequestDto) {
         Roadmap roadmap = roadmapRepository.findByUserId(userId)
-                .orElseThrow(() -> new RoadmapNotFoundException(ROADMAP_NOT_FOUND));
+                .orElseThrow(() -> new RoadmapException(ROADMAP_NOT_FOUND));
         if (roadMapRequestDto.title() != null) {
             roadmap.updateTitle(roadMapRequestDto.title());
         }
@@ -93,7 +92,7 @@ public class RoadmapService {
     @Transactional
     public void deleteRoadmap(Long userId) {
         Roadmap roadmap = roadmapRepository.findByUserId(userId)
-                .orElseThrow(() -> new RoadmapNotFoundException(ROADMAP_NOT_FOUND));
+                .orElseThrow(() -> new RoadmapException(ROADMAP_NOT_FOUND));
         roadmapRepository.delete(roadmap);
     }
 

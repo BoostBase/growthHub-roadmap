@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class DuplicationRoadmapException extends RuntimeException {
+public class RoadmapException extends RuntimeException {
 
     private final ErrorCode errorCode;
 }

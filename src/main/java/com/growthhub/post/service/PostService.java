@@ -2,8 +2,7 @@ package com.growthhub.post.service;
 
 import com.growthhub.global.client.UserClient;
 import com.growthhub.global.dto.response.UserResponse;
-import com.growthhub.global.exception.PostNotFoundException;
-import com.growthhub.global.exception.PostUserMismatchException;
+import com.growthhub.global.exception.PostException;
 import com.growthhub.post.domain.Post;
 import com.growthhub.post.dto.request.PostRequestDto;
 import com.growthhub.post.dto.response.PostResponseDto;
@@ -60,16 +59,16 @@ public class PostService {
 
     public PostResponseDto getPost(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
+                .orElseThrow(() -> new PostException(POST_NOT_FOUND));
         return PostResponseDto.from(post);
     }
 
     @Transactional
     public PostResponseDto updatePost(Long userId, Long postId, PostRequestDto postRequestDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
+                .orElseThrow(() -> new PostException(POST_NOT_FOUND));
         if (!Objects.equals(post.getUserId(), userId)) {
-            throw new PostUserMismatchException(POST_USER_MISMATCH);
+            throw new PostException(POST_USER_MISMATCH);
         }
         if (postRequestDto.title() != null) {
             post.updateTitle(postRequestDto.title());
@@ -83,9 +82,9 @@ public class PostService {
     @Transactional
     public void deletePost(Long userId, Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
+                .orElseThrow(() -> new PostException(POST_NOT_FOUND));
         if (!Objects.equals(post.getUserId(), userId)) {
-            throw new PostUserMismatchException(POST_USER_MISMATCH);
+            throw new PostException(POST_USER_MISMATCH);
         }
         postRepository.delete(post);
     }

@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class RoadmapNotFoundException extends RuntimeException {
+public class CommentException extends RuntimeException {
 
     private final ErrorCode errorCode;
 }

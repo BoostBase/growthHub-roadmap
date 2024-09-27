@@ -1,9 +1,7 @@
 package com.growthhub.post.comment.service;
 
-import com.growthhub.global.exception.CommentDepthExceededException;
-import com.growthhub.global.exception.CommentNotFoundException;
-import com.growthhub.global.exception.CommentUserMismatchException;
-import com.growthhub.global.exception.PostNotFoundException;
+import com.growthhub.global.exception.CommentException;
+import com.growthhub.global.exception.PostException;
 import com.growthhub.post.comment.domain.Comment;
 import com.growthhub.post.comment.dto.request.CommentRequestDto;
 import com.growthhub.post.comment.repository.CommentRepository;
@@ -32,7 +30,7 @@ public class CommentService {
     public void save(Long userId, CommentRequestDto commentRequestDto) {
         Comment parent = findParentCommentIfExists(commentRequestDto.parentId());
         Post post = postRepository.findById(commentRequestDto.postId())
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
+                .orElseThrow(() -> new PostException(POST_NOT_FOUND));
         Comment comment = commentRequestDto.toComment(post, parent, userId);
         commentRepository.save(comment);
     }
@@ -42,9 +40,9 @@ public class CommentService {
             return null;
         }
         Comment parent = commentRepository.findById(parentId)
-                .orElseThrow(() -> new CommentNotFoundException(COMMENT_NOT_FOUND));
+                .orElseThrow(() -> new CommentException(COMMENT_NOT_FOUND));
         if (parent.getParent() != null) {
-            throw new CommentDepthExceededException(COMMENT_DEPTH_EXCEEDED);
+            throw new CommentException(COMMENT_DEPTH_EXCEEDED);
         }
         return parent;
     }
@@ -52,9 +50,9 @@ public class CommentService {
     @Transactional
     public void updateComment(Long userId, Long commentId, CommentRequestDto commentRequestDto) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException(COMMENT_NOT_FOUND));
+                .orElseThrow(() -> new CommentException(COMMENT_NOT_FOUND));
         if (!Objects.equals(comment.getUserId(), userId)) {
-            throw new CommentUserMismatchException(COMMENT_USER_MISMATCH);
+            throw new CommentException(COMMENT_USER_MISMATCH);
         }
         if (commentRequestDto.content() != null) {
             comment.updateContent(commentRequestDto.content());
@@ -64,9 +62,9 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long userId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException(COMMENT_NOT_FOUND));
+                .orElseThrow(() -> new CommentException(COMMENT_NOT_FOUND));
         if (!Objects.equals(comment.getUserId(), userId)) {
-            throw new CommentUserMismatchException(COMMENT_USER_MISMATCH);
+            throw new CommentException(COMMENT_USER_MISMATCH);
         }
         comment.updateContent(DELETE_MESSAGE);
     }

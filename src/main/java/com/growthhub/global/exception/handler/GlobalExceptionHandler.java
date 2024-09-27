@@ -22,38 +22,18 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(RoadmapNotFoundException.class)
-    public ResponseEntity<Object> handleRoadmapNotFound(RoadmapNotFoundException e) {
+    @ExceptionHandler(RoadmapException.class)
+    public ResponseEntity<Object> handleRoadmap(RoadmapException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
-    @ExceptionHandler(DuplicationRoadmapException.class)
-    public ResponseEntity<Object> handleDuplicationRoadmap(DuplicationRoadmapException e) {
+    @ExceptionHandler(PostException.class)
+    public ResponseEntity<Object> handlePost(PostException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
-    @ExceptionHandler(PostNotFoundException.class)
-    public ResponseEntity<Object> handlePostNotFound(PostNotFoundException e) {
-        return handleExceptionInternal(e.getErrorCode());
-    }
-
-    @ExceptionHandler(PostUserMismatchException.class)
-    public ResponseEntity<Object> handlePostUserMismatch(PostUserMismatchException e) {
-        return handleExceptionInternal(e.getErrorCode());
-    }
-
-    @ExceptionHandler(CommentNotFoundException.class)
-    public ResponseEntity<Object> handleCommentNotFound(CommentNotFoundException e) {
-        return handleExceptionInternal(e.getErrorCode());
-    }
-
-    @ExceptionHandler(CommentDepthExceededException.class)
-    public ResponseEntity<Object> handleCommentDepthExceeded(CommentDepthExceededException e) {
-        return handleExceptionInternal(e.getErrorCode());
-    }
-
-    @ExceptionHandler(CommentUserMismatchException.class)
-    public ResponseEntity<Object> handleCommentUserMismatch(CommentUserMismatchException e) {
+    @ExceptionHandler(CommentException.class)
+    public ResponseEntity<Object> handleComment(CommentException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
