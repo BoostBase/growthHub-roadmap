@@ -1,1 +1,5 @@
-spring.application.name=roadmap
+spring:
+  application:
+    name: roadmap-service
+  config:
+    import: optional:configserver:${CONFIG_SERVER}
