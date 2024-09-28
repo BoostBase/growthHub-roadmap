@@ -40,16 +40,24 @@ public class Comment {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> children;
 
+    @Column(name = "group_id", nullable = false)
+    private Long groupId;
+
     @Builder
     public Comment(String content, Long userId, Post post, Comment parent) {
         this.content = content;
         this.userId = userId;
         this.post = post;
         this.parent = parent;
-        children = new ArrayList<>();
+        this.groupId = 0L;
+        this.children = new ArrayList<>();
     }
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void updateGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 }

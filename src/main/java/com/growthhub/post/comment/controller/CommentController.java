@@ -5,6 +5,8 @@ import com.growthhub.post.comment.dto.request.CommentRequestDto;
 import com.growthhub.post.comment.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,16 @@ public class CommentController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.EMPTY_RESPONSE);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseTemplate<Object>> getComments(
+            @RequestParam("postId") Long postId,
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(commentService.getComments(postId, pageable)));
     }
 
     @PutMapping("/{commentId}")
