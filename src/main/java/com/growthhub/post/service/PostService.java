@@ -43,11 +43,7 @@ public class PostService {
                 .map(Post::getUserId)
                 .distinct()
                 .toList();
-        System.out.println(userIds);
         List<UserResponse> users = userClient.getUser(userIds);
-        for(UserResponse userResponse : users) {
-            System.out.println(userResponse.userId());
-        }
         Map<Long, UserResponse> userMap = users.stream()
                 .collect(toMap(UserResponse::userId, userResponse -> userResponse));
         List<PostsResponseDto.PostWithUser> posts = postsSlice.stream().map(post -> {
