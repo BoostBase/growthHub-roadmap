@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class RoadmapController {
@@ -83,5 +85,14 @@ public class RoadmapController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(roadmapService.getRoadmapIdByUser(userId)));
+    }
+
+    @GetMapping("/mentors")
+    public ResponseEntity<ResponseTemplate<Object>> getRoadmapByUsers(
+            @RequestParam List<Long> userIds
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(roadmapService.getRoadmapIdByUserList(userIds)));
     }
 }

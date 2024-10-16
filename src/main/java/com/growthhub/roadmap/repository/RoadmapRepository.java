@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
@@ -27,4 +28,7 @@ public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
 
     @Query("SELECT r FROM Roadmap r ORDER BY r.id DESC")
     Slice<Roadmap> findAllSlice(Pageable pageable);
+
+    @Query("SELECT r FROM Roadmap r WHERE r.userId IN :userIds")
+    List<Roadmap> findByUserIds(@Param("userIds") List<Long> userIds);
 }

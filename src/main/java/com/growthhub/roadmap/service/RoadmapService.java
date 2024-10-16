@@ -100,4 +100,23 @@ public class RoadmapService {
         Optional<Roadmap> roadmap = roadmapRepository.findByUserId(userId);
         return roadmap.map(Roadmap::getId).orElse(null);
     }
+
+    public RoadmapsResponseDto getRoadmapIdByUserList(List<Long> userIds) {
+        List<Roadmap> roadmapsSlice = roadmapRepository.findByUserIds(userIds);
+        List<Long> mentorIds = roadmapsSlice.stream()
+                .map(Roadmap::getUserId)
+                .distinct()
+                .toList();
+        List<UserResponse> mentors = userClient.getUser(mentorIds);
+        Map<Long, UserResponse> mentorMap = mentors.stream()
+                .collect(toMap(UserResponse::userId, userResponse -> userResponse));
+        Map<Long, Double> userRatingMap = getAverageRatingMap(mentorIds);
+        List<RoadmapsResponseDto.RoadmapWithUser> roadmaps = roadmapsSlice.stream().map(roadmap -> {
+            UserResponse userResponse = mentorMap.get(roadmap.getUserId());
+            Double rating = userRatingMap.getOrDefault(roadmap.getUserId(), 0.0);
+            return RoadmapsResponseDto.RoadmapWithUser.from(userResponse, rating, roadmap);
+        }).toList();
+        return RoadmapsResponseDto.from(roadmaps, false);
+
+    }
 }
