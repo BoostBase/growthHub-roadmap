@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "AUTH-SERVICE", url = "http://localhost:8000")
+@FeignClient(name = "AUTH-SERVICE")
 public interface UserClient {
-
     @GetMapping("/api/auth/users")
     List<UserResponse> getUser(@RequestParam("userIds") List<Long> userIds);
 }

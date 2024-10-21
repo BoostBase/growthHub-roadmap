@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "USER-SERVICE", url = "http://localhost:8000")
+@FeignClient(name = "USER-SERVICE")
 public interface RatingClient {
 
     @GetMapping("/api/users/rating/average")
