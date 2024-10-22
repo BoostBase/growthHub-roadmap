@@ -10,6 +10,6 @@ import java.util.List;
 @FeignClient(name = "USER-SERVICE")
 public interface RatingClient {
 
-    @GetMapping("/api/users/rating/average")
+    @GetMapping("/rating/average")
     List<RatingResponse> getRatingAverage(@RequestParam("mentorIds") List<Long> mentorIds);
 }
