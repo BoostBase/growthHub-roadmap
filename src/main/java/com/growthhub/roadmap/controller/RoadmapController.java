@@ -36,7 +36,6 @@ public class RoadmapController {
     public ResponseEntity<ResponseTemplate<Object>> getRoadmaps(
             @PageableDefault(size = 10) Pageable pageable
     ) {
-        roadmapService.getRoadmaps(pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(roadmapService.getRoadmaps(pageable)));
