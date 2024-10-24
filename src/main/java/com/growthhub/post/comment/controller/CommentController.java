@@ -3,6 +3,7 @@ package com.growthhub.post.comment.controller;
 import com.growthhub.global.dto.ResponseTemplate;
 import com.growthhub.post.comment.dto.request.CommentRequestDto;
 import com.growthhub.post.comment.service.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @Operation(summary = "댓글 저장", description = "Authorization Header: JWT Token")
     @PostMapping
     public ResponseEntity<ResponseTemplate<?>> save(
             HttpServletRequest request,
@@ -30,6 +32,7 @@ public class CommentController {
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
+    @Operation(summary = "댓글 리스트 조회")
     @GetMapping
     public ResponseEntity<ResponseTemplate<Object>> getComments(
             @RequestParam("postId") Long postId,
@@ -40,6 +43,7 @@ public class CommentController {
                 .body(ResponseTemplate.from(commentService.getComments(postId, pageable)));
     }
 
+    @Operation(summary = "댓글 수정", description = "Authorization Header: JWT Token")
     @PutMapping("/{commentId}")
     public ResponseEntity<ResponseTemplate<?>> updateComment(
             HttpServletRequest request,
@@ -53,6 +57,7 @@ public class CommentController {
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
+    @Operation(summary = "댓글 삭제", description = "Authorization Header: JWT Token")
     @DeleteMapping("/{commentId}")
     public ResponseEntity<ResponseTemplate<?>> deleteComment(
             HttpServletRequest request,
