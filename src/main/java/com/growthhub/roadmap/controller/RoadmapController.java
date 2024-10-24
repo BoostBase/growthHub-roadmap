@@ -24,7 +24,7 @@ public class RoadmapController {
     private final RoadmapService roadmapService;
 
     @Operation(summary = "로드맵 저장", description = "Authorization Header: JWT Token")
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<ResponseTemplate<Object>> save(
             HttpServletRequest request,
             @Valid @RequestBody RoadmapRequestDto roadmapRequestDto
@@ -56,7 +56,7 @@ public class RoadmapController {
     }
 
     @Operation(summary = "로드맵 수정", description = "Authorization Header: JWT Token")
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<ResponseTemplate<Object>> updateRoadmap(
             HttpServletRequest request,
             @RequestBody RoadmapRequestDto roadmapRequestDto
@@ -68,7 +68,7 @@ public class RoadmapController {
     }
 
     @Operation(summary = "로드맵 삭제", description = "Authorization Header: JWT Token")
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<ResponseTemplate<?>> deleteRoadmap(
             HttpServletRequest request
     ) {
